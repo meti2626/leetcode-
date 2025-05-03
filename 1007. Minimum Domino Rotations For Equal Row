@@ -1,0 +1,34 @@
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        if (tops == null || tops.length == 0 || bottoms == null || bottoms.length == 0) {
+            return 0;
+        }
+        int length = tops.length;
+        // 1. make top with tops[0] 
+        // 2. make top with bottoms[0]
+        // 3. make bottom with tops[0]
+        // 4. make bottom with bottoms[0]
+        int resultWithTop = minRotation(tops[0], tops, bottoms, length);
+        if (resultWithTop != -1) {
+            return resultWithTop;
+        }
+        return tops[0] != bottoms[0] ? minRotation(bottoms[0], tops, bottoms, length) : -1;
+    }
+
+    private int minRotation(int match, int [] tops, int [] bottoms, int length) {
+        int minRotationTop = 0;
+        int minRotationBottom = 0;
+        for (int index = 0; index < length; index++) {
+            if (tops[index] != match && bottoms[index] != match) {
+                return -1;
+            }
+            if (tops[index] != match) {
+                minRotationTop++;
+            }
+            else if (bottoms[index] != match) {
+                minRotationBottom++;
+            }
+        }
+        return Math.min(minRotationTop, minRotationBottom);
+    }
+}
